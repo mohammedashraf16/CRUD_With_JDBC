@@ -1,17 +1,15 @@
 package app;
 
-import dao.DBConnection;
+import dao.Employee;
+import dao.EmployeeDao;
+import dao.EmployeeDaoImpl;
 
-import java.sql.Connection;
+import java.util.Date;
 
 public class App {
     static void main() {
-        Connection con =DBConnection.getConnection();
-        if (con ==null){
-            System.out.println("Connection Failed!");
-        }
-        else {
-            System.out.println("Connection Success");
-        }
+        EmployeeDao employeeDao = new EmployeeDaoImpl();
+        Employee employee=new Employee(0,"mohammed",true,new Date(),5000d);
+        employeeDao.save(employee);
     }
 }
