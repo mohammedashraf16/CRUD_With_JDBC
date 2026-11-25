@@ -25,7 +25,24 @@ public class EmployeeDaoImpl implements EmployeeDao{
             return;
         }
         if(employee.getId()>1){
+            String query = "UPDATE Employee set name=?, gender=?, birthDate=?, salary=? WHERE id=?;";
+            try(PreparedStatement preparedStatement = con.prepareStatement(query);){
+                preparedStatement.setString(1,employee.getName());
+                preparedStatement.setBoolean(2,employee.isGender());
+                preparedStatement.setDate(3, Utils.getSqlDate(employee.getBirthDate()));
+                preparedStatement.setDouble(4,employee.getSalary());
+                preparedStatement.setInt(5,employee.getId());
 
+                preparedStatement.executeUpdate();
+            }catch (SQLException sqlException){
+                sqlException.fillInStackTrace();
+            }finally {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.fillInStackTrace();
+                }
+            }
         }else {
             String query = "Insert Into Employee(name,gender,birthDate,salary) Values(?,?,?,?);";
             try(PreparedStatement preparedStatement = con.prepareStatement(query);){
