@@ -59,6 +59,9 @@ public class Employee {
     public void setSalary(double salary) {
         this.salary = salary;
     }
+    public static EmployeeBuilder builder(){
+        return new EmployeeBuilder();
+    }
 
     @Override
     public String toString() {

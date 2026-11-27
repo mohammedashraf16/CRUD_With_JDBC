@@ -22,10 +22,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Employee employee = new Employee(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getBoolean("gender")
-                        , resultSet.getDate("birthDate"), resultSet.getDouble("salary"));
+                Employee employee = Employee.builder()
+                        .id(resultSet.getInt("id"))
+                        .name(resultSet.getString("name"))
+                        .gender(resultSet.getBoolean("gender"))
+                        .birthDate(resultSet.getDate("birthDate"))
+                        .salary(resultSet.getDouble("salary")).build();
                 employeeList.add(employee);
             }
+
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         } finally {
@@ -50,8 +55,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return new Employee(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getBoolean("gender")
-                       , resultSet.getDate("birthDate"), resultSet.getDouble("salary"));
+                return  Employee.builder()
+                        .id(resultSet.getInt("id"))
+                        .name(resultSet.getString("name"))
+                        .gender(resultSet.getBoolean("gender"))
+                        .birthDate(resultSet.getDate("birthDate"))
+                        .salary(resultSet.getDouble("salary")).build();
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
